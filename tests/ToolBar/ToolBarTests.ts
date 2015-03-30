@@ -1575,24 +1575,24 @@ module CorsicaTests {
                 "TEST ERROR: ToolBar's container element must size to content.");
 
             // Vertically center the closed ToolBar's content box.
-            var topOfViewport = 0,
-                bottomOfViewport = window.innerHeight,
-                middleOfViewport = window.innerHeight / 2,
-                closedStyle = getComputedStyle(toolBar._dom.root),
-                paddingTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.paddingTop),
-                borderTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.borderTop),
-                marginTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.marginTop),
-                contentHeight = WinJS.Utilities.getContentHeight(toolBarEl),
-                nextContainerTop = middleOfViewport - (contentHeight / 2) - paddingTop - borderTop - marginTop;
+            var topOfViewport = 0;
+            var bottomOfViewport = window.innerHeight;
+            var middleOfViewport = window.innerHeight / 2;
+            var closedStyle = getComputedStyle(toolBar._dom.root);
+            var paddingTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.paddingTop);
+            var borderTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.borderTopWidth);
+            var marginTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.marginTop);
+            var contentHeight = WinJS.Utilities.getContentHeight(toolBarEl);
+            var nextContainerTop = middleOfViewport - (contentHeight / 2) - paddingTop - borderTop - marginTop;
 
             container.style.top = nextContainerTop + "px";
 
             // Sanity check our enviornment and verify that the ToolBar element's content box height is centered
             // around the mid point of the viewport.
 
-            var toolBarRect = toolBarEl.getBoundingClientRect(),
-                contentRectTop = toolBarRect.top + borderTop + paddingTop,
-                middleOfContentBox = contentRectTop + (contentHeight / 2);
+            var toolBarRect = toolBarEl.getBoundingClientRect();
+            var contentRectTop = toolBarRect.top + borderTop + paddingTop;
+            var middleOfContentBox = contentRectTop + (contentHeight / 2);
             Helper.Assert.areFloatsEqual(middleOfViewport, middleOfContentBox,
                 "TEST ERROR, Test failed to correctly set enviornment. The content box should be centered " +
                 "around the middpoint of the viewport height", 1);
@@ -1636,7 +1636,7 @@ module CorsicaTests {
             toolBar.open();
             var openedRect = toolBar.element.getBoundingClientRect();
             // We expect the coordinates of either the top or bottom edge of the opened ToolBar will change
-            // based on its the overflowDirection chosen for the commanding surface. Verify that the other
+            // based on the overflowDirection chosen for the commanding surface. Verify that the other
             // edges have not changed coordinates.
             Helper.Assert.areFloatsEqual(closedRect.left, openedRect.left,
                 "Opening a ToolBar should not affect its left edge viewport coordinate", 1);
