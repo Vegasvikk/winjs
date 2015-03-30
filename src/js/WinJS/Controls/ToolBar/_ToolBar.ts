@@ -385,8 +385,8 @@ export class ToolBar {
             closedContentBoxTop = closedBorderBox.top + closedBorderTop + closedPaddingTop,
             closedContentBoxBottom = closedContentBoxTop + closedContentHeight;
 
-        // Size our placeHolder. Set height and width to match borderbox of the closed Commandingsurface.
-        // Copy commandingsurface margins to the placeholder.
+        // Size our placeHolder. Set height and width to match borderbox of the closed ToolBar.
+        // Copy ToolBar margins to the placeholder.
         var placeHolder = this._dom.placeHolder;
         var placeHolderStyle = placeHolder.style
         placeHolderStyle.width = closedBorderBox.width + "px";
@@ -414,12 +414,12 @@ export class ToolBar {
             distanceFromBottom = bottomOfViewport - closedContentBoxBottom;
 
         if (distanceFromTop > distanceFromBottom) {
-            // ToolBar is going to expand updwards.
+            // CommandingSurface is going to expand updwards.
             this._commandingSurface.overflowDirection = _Constants.OverflowDirection.top;
             // Position the bottom edge of the ToolBar marginbox over the bottom edge of the placeholder marginbox.
             this._dom.root.style.bottom = bottomOfViewport - closedBorderBox.bottom + closedMargins.bottom + "px";
         } else {
-            // ToolBar is going to expand downwards.
+            // CommandingSurface is going to expand downwards.
             this._commandingSurface.overflowDirection = _Constants.OverflowDirection.bottom;
             // Position the top edge of the ToolBar marginbox over the top edge of the placeholder marginbox.
             this._dom.root.style.top = topOfViewport + closedBorderBox.top - closedMargins.top + "px";
