@@ -14,8 +14,6 @@ module Helper.AppBar {
         var appBarRect = appBar.element.getBoundingClientRect();
         var commandingSurfaceRect = appBar._dom.commandingSurfaceEl.getBoundingClientRect();
 
-        //TODO Verify correct commandingsurface overflowdirection based on AppBar placement?
-
         // Verify that the opened AppBar element has the same bounding rect as the the CommandingSurface element.
         LiveUnit.Assert.areEqual(appBarRect.height, commandingSurfaceRect.height, "Opened AppBar and CommandingSurface must have the same height.");
         LiveUnit.Assert.areEqual(appBarRect.width, commandingSurfaceRect.width, "Opened AppBar and CommandingSurface must have the same width.");

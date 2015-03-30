@@ -1600,22 +1600,22 @@ module CorsicaTests {
             // Verify that an opened toolbar will automatically overflow in the direction (top/bottom) that has
             // the most available space between the viewport and content box.
 
-            // Pull the center of the content box up one pixel up from the middle of the viewport. 
+            // Pull the center of the content box up one pixel from the middle of the viewport. 
             nextContainerTop -= 1;
             container.style.top = nextContainerTop + "px";
 
-            // Opened ToolBar should now overflow bottom.
+            // Now that we are above center, verify that ToolBar opens downwards.
             toolBar.open();
             LiveUnit.Assert.areEqual(toolBar._commandingSurface.overflowDirection,
                 _Constants.OverflowDirection.bottom,
                 "ToolBar should overflow bottom when there is more space below the content box than above it.");
             toolBar.close();
 
-            // Push the center of the content box down to 1 pixel below the middle of the viewport
+            // Move the center of the content box down to just 1 pixel below the middle of the viewport
             nextContainerTop += 2;
             container.style.top = nextContainerTop + "px";
 
-            // Opened ToolBar should now overflow top.
+            // Now that we are below center, verify that ToolBar opens upwards.
             toolBar.open();
             LiveUnit.Assert.areEqual(toolBar._commandingSurface.overflowDirection,
                 _Constants.OverflowDirection.top,

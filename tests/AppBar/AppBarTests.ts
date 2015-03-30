@@ -7,6 +7,7 @@
 /// <reference path="../../typings/typings.d.ts" />
 /// <reference path="../TestLib/liveToQ/liveToQ.d.ts" />
 /// <reference path="../TestLib/winjs.dev.d.ts" />
+// <reference path="../TestData/AppBar.less.css" />
 
 module CorsicaTests {
     var AppBar = <typeof WinJS.UI.PrivateAppBar> WinJS.UI.AppBar;
@@ -78,6 +79,7 @@ module CorsicaTests {
             newNode.id = "host";
             document.body.appendChild(newNode);
             this._element = newNode;
+            WinJS.Utilities.addClass(this._element, "file-appbar-css");
         }
 
         tearDown() {
