@@ -51,18 +51,22 @@ module Helper.AppBar {
         var tolerance = 1;
         var appBarRect = appBar._dom.root.getBoundingClientRect();
         var appBarStyle = getComputedStyle(appBar.element);
-        var marginTop = WinJS.Utilities.convertToPixels(appBar.element, appBarStyle.marginTop);
-        var marginBottom = WinJS.Utilities.convertToPixels(appBar.element, appBarStyle.marginBottom);
+        var marginBoxTop = appBarRect.top - WinJS.Utilities.convertToPixels(appBar.element, appBarStyle.marginTop);
+        var marginBoxBottom = appBarRect.bottom + WinJS.Utilities.convertToPixels(appBar.element, appBarStyle.marginBottom);
 
         switch (placement) {
             case WinJS.UI.AppBar.Placement.top:
-                Helper.Assert.areFloatsEqual(topOfViewPort, appBarRect.top - marginTop, "", 1);
-                LiveUnit.Assert.areEqual(appBar._commandingSurface.overflowDirection, _CommandingSurface.OverflowDirection.bottom, "Top AppBar should overflow towards the bottom");
+                Helper.Assert.areFloatsEqual(topOfViewPort, marginBoxTop,
+                    "AppBar with placement 'top' should render its marginbox at the top of the viewport", 1);
+                LiveUnit.Assert.areEqual(appBar._commandingSurface.overflowDirection, _CommandingSurface.OverflowDirection.bottom,
+                    "placement 'top' AppBar's CommandingSurface should have overflowDirection 'bottom'");
                 break;
 
             case WinJS.UI.AppBar.Placement.bottom:
-                Helper.Assert.areFloatsEqual(bottomOfViewPort, appBarRect.bottom + marginBottom, "", 1);
-                LiveUnit.Assert.areEqual(appBar._commandingSurface.overflowDirection, _CommandingSurface.OverflowDirection.top, "Bottom AppBar should overflow towards the top");
+                Helper.Assert.areFloatsEqual(bottomOfViewPort, marginBoxBottom,
+                    "AppBar with placement 'bottom' should render its marginbox at the bottom of the viewport", 1);
+                LiveUnit.Assert.areEqual(appBar._commandingSurface.overflowDirection, _CommandingSurface.OverflowDirection.top,
+                    "placement 'bottom' AppBar's CommandingSurface should have overflowDirection 'top'");
                 break;
 
             default:

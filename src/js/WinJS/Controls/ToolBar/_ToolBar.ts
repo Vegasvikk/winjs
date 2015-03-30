@@ -307,16 +307,15 @@ export class ToolBar {
         root.appendChild(commandingSurfaceEl);
 
         // While the ToolBar is open, it will place itself in the <body> so it can become a light dismissible
-        // overlay. It leaves the placeHolder element behind as stand in at the ToolBar's original DOM location 
-        // to avoid reflowing surrounding app content and sell the illusion that the ToolBar hasn't moved along
+        // overlay. It leaves the placeHolder element behind as stand in at the ToolBar's original DOM location
+        // to avoid reflowing surrounding app content and create the illusion that the ToolBar hasn't moved along
         // the x or y planes.
         var placeHolder = _Global.document.createElement("DIV");
         _ElementUtilities.addClass(placeHolder, _Constants.ClassNames.placeHolderCssClass);
         // If the ToolBar's original HTML parent node is disposed while the ToolBar is open and repositioned as 
         // a temporary child of the <body>, make sure that calling dispose on the placeHolder element will trigger 
         // dispose on the ToolBar as well.
-        _ElementUtilities.addClass(placeHolder, _Constants.ClassNames.disposableCssClass);
-        placeHolder["dispose"] = this.dispose.bind(this);
+        _Dispose.markDisposable(placeHolder, this.dispose.bind(this));
 
         this._dom = {
             root: root,
