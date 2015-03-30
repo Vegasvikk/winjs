@@ -27,14 +27,24 @@ module Helper.ToolBar {
         // fixed positioning, to reposition itself over the placeholder element to create the illusion that it
         // never moved.
 
-        var toolBarRect = toolBar.element.getBoundingClientRect();
-        var commandingSurfaceRect = toolBar._dom.commandingSurfaceEl.getBoundingClientRect();
-        var placeHolder = toolBar._dom.placeHolder; 
-        var placeHolderRect = placeHolder.getBoundingClientRect();
+        var toolBarContentHeight = WinJS.Utilities.getContentHeight(toolBar.element),
+            toolBarContentWidth = WinJS.Utilities.getContentWidth(toolBar.element),
+            commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(toolBar._dom.commandingSurfaceEl),
+            commandingSurfaceTotalWidth = WinJS.Utilities.getTotalWidth(toolBar._dom.commandingSurfaceEl),
+            placeHolder = toolBar._dom.placeHolder,
+            toolBarTotalHeight = WinJS.Utilities.getTotalHeight(toolBar.element),
+            toolBarTotalWidth = WinJS.Utilities.getTotalWidth(toolBar.element),
+            placeHolderTotalHeight = WinJS.Utilities.getTotalHeight(placeHolder),
+            placeHolderTotalWidth = WinJS.Utilities.getTotalWidth(placeHolder);
 
-        // Verify that the ToolBar element has the same ClientRect as its CommandingSurface.
-        var msg = "Opened ToolBar should have the same BoundingClientRect as its CommandingSurface.";
-        Helper.Assert.areBoundingClientRectsEqual(commandingSurfaceRect, toolBarRect, msg, 1); 
+        //var toolBarRect = toolBar.element.getBoundingClientRect();
+        //var commandingSurfaceRect = toolBar._dom.commandingSurfaceEl.getBoundingClientRect();
+        //var placeHolder = toolBar._dom.placeHolder;
+        //var placeHolderRect = placeHolder.getBoundingClientRect();
+
+        // Verify that the Opened ToolBar content size matches its CommandingSurface's total size.
+        LiveUnit.Assert.areEqual(toolBarContentHeight, commandingSurfaceTotalHeight, "Opened ToolBar contentbox height should size to content.");
+        LiveUnit.Assert.areEqual(toolBarContentWidth, commandingSurfaceTotalWidth, "Opened ToolBar contentbox width should size to content.");
 
         // Verify that the opened toolbar is a child of the body element with fixed position.
         LiveUnit.Assert.isTrue(toolBar.element.parentElement === document.body, "Opened ToolBar must be a child of the <body> element");
@@ -54,7 +64,7 @@ module Helper.ToolBar {
         LiveUnit.Assert.areEqual(toolBarRect.left, placeHolderRect.left, "Opened ToolBar must have same left offset as its placeholder element");
 
         switch (toolBar._commandingSurface.overflowDirection) {
-            case _CommandingSurface.OverflowDirection.bottom: 
+            case _CommandingSurface.OverflowDirection.bottom:
 
                 LiveUnit.Assert.areEqual(toolBarRect.top, placeHolderRect.top, "")
                 break;
@@ -68,15 +78,15 @@ module Helper.ToolBar {
     }
 
     export function verifyRenderedClosed(toolBar: WinJS.UI.PrivateToolBar): void {
-        var toolBarRect = toolBar.element.getBoundingClientRect();
-        var commandingSurfaceRect = toolBar._dom.commandingSurfaceEl.getBoundingClientRect();
-        var placeHolder = toolBar._dom.placeHolder;
+        var toolBarContentHeight = WinJS.Utilities.getContentHeight(toolBar.element),
+            toolBarContentWidth = WinJS.Utilities.getContentWidth(toolBar.element),
+            commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(toolBar._dom.commandingSurfaceEl),
+            commandingSurfaceTotalWidth = WinJS.Utilities.getTotalWidth(toolBar._dom.commandingSurfaceEl),
+            placeHolder = toolBar._dom.placeHolder;
 
-        // Verify that the Closed ToolBar element has the same ClientRect as its CommandingSurface's element.
-        LiveUnit.Assert.areEqual(toolBarRect.height, commandingSurfaceRect.height, "Closed ToolBar and CommandingSurface must have the same height.");
-        LiveUnit.Assert.areEqual(toolBarRect.width, commandingSurfaceRect.width, "Closed ToolBar and CommandingSurface must have the same width.");
-        LiveUnit.Assert.areEqual(toolBarRect.top, commandingSurfaceRect.top, "Closed ToolBar and CommandingSurface must have the same top offset.");
-        LiveUnit.Assert.areEqual(toolBarRect.left, commandingSurfaceRect.left, "Closed ToolBar and CommandingSurface must have the same left offet.");
+        // Verify that the Closed ToolBar content size matches its CommandingSurface's total size.
+        LiveUnit.Assert.areEqual(toolBarContentHeight, commandingSurfaceTotalHeight, "Closed ToolBar contentbox height should size to content.");
+        LiveUnit.Assert.areEqual(toolBarContentWidth, commandingSurfaceTotalWidth, "Closed ToolBar contentbox width should size to content.");
 
         // Verify we have a parent element and our placeHolder element does not.
         LiveUnit.Assert.isTrue(document.body.contains(toolBar.element), "Closed ToolBar must be a descendant of the body");
@@ -85,7 +95,7 @@ module Helper.ToolBar {
         Helper._CommandingSurface.verifyRenderedClosed(toolBar._commandingSurface);
     }
 
-    export function useSynchronousAnimations(appBar: WinJS.UI.PrivateToolBar) {
-        Helper._CommandingSurface.useSynchronousAnimations(appBar._commandingSurface);
+    export function useSynchronousAnimations(toolBar: WinJS.UI.PrivateToolBar) {
+        Helper._CommandingSurface.useSynchronousAnimations(toolBar._commandingSurface);
     }
 }

@@ -7,7 +7,7 @@
 /// <reference path="../../typings/typings.d.ts" />
 /// <reference path="../TestLib/liveToQ/liveToQ.d.ts" />
 /// <reference path="../TestLib/winjs.dev.d.ts" />
-/// <deploy src="../TestData/" />
+// <reference path="../TestData/ToolBar.less.css" />
 
 module CorsicaTests {
     var ToolBar = <typeof WinJS.UI.PrivateToolBar> WinJS.UI.ToolBar;
@@ -79,6 +79,7 @@ module CorsicaTests {
             newNode.id = "host";
             document.body.appendChild(newNode);
             this._element = newNode;
+            WinJS.Utilities.addClass(this._element, "file-toolbar-css");
         }
 
         tearDown() {
