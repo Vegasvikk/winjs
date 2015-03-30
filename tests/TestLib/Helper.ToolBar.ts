@@ -27,22 +27,32 @@ module Helper.ToolBar {
         // fixed positioning, to reposition itself over the placeholder element to create the illusion that it
         // never moved.
 
-        var toolBarContentHeight = WinJS.Utilities.getContentHeight(toolBar.element),
-            toolBarContentWidth = WinJS.Utilities.getContentWidth(toolBar.element),
-            commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(toolBar._dom.commandingSurfaceEl),
+        var commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(toolBar._dom.commandingSurfaceEl),
             commandingSurfaceTotalWidth = WinJS.Utilities.getTotalWidth(toolBar._dom.commandingSurfaceEl),
+
+            toolBarEl = toolBar.element,
+            toolBarContentHeight = WinJS.Utilities.getContentHeight(toolBarEl),
+            toolBarContentWidth = WinJS.Utilities.getContentWidth(toolBarEl),
+            toolBarTotalHeight = WinJS.Utilities.getTotalHeight(toolBarEl),
+            toolBarTotalWidth = WinJS.Utilities.getTotalWidth(toolBarEl),
+            toolBarRect = toolBarEl.getBoundingClientRect(),
+            toolBarStyle = getComputedStyle(toolBarEl),
+            toolBarMarginBoxLeft = toolBarRect.left - WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginLeft),
+            toolBarMarginBoxTop = toolBarRect.top - WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginTop),
+            toolBarMarginBoxRight = toolBarRect.right + WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginRight),
+            toolBarMarginBoxBottom = toolBarRect.bottom + WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginBottom),
+
             placeHolder = toolBar._dom.placeHolder,
-            toolBarTotalHeight = WinJS.Utilities.getTotalHeight(toolBar.element),
-            toolBarTotalWidth = WinJS.Utilities.getTotalWidth(toolBar.element),
             placeHolderTotalHeight = WinJS.Utilities.getTotalHeight(placeHolder),
-            placeHolderTotalWidth = WinJS.Utilities.getTotalWidth(placeHolder);
+            placeHolderTotalWidth = WinJS.Utilities.getTotalWidth(placeHolder),
+            placeHolderRect = placeHolder.getBoundingClientRect(),
+            placeHolderStyle = getComputedStyle(placeHolder),
+            placeHolderMarginBoxLeft = placeHolderRect.left - WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginLeft),
+            placeHolderMarginBoxTop = placeHolderRect.top - WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginTop),
+            placeHolderMarginBoxRight = placeHolderRect.right + WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginRight),
+            placeHolderMarginBoxBottom = placeHolderRect.bottom + WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginBottom);
 
-        //var toolBarRect = toolBar.element.getBoundingClientRect();
-        //var commandingSurfaceRect = toolBar._dom.commandingSurfaceEl.getBoundingClientRect();
-        //var placeHolder = toolBar._dom.placeHolder;
-        //var placeHolderRect = placeHolder.getBoundingClientRect();
-
-        // Verify that the Opened ToolBar content size matches its CommandingSurface's total size.
+        // Verify that the Opened ToolBar contentbox size matches its CommandingSurface's marginbox size.
         LiveUnit.Assert.areEqual(toolBarContentHeight, commandingSurfaceTotalHeight, "Opened ToolBar contentbox height should size to content.");
         LiveUnit.Assert.areEqual(toolBarContentWidth, commandingSurfaceTotalWidth, "Opened ToolBar contentbox width should size to content.");
 
@@ -54,23 +64,19 @@ module Helper.ToolBar {
         LiveUnit.Assert.isTrue(document.body.contains(placeHolder), "placeholder element must be a descendant of the <body> while ToolBar is opened.");
         LiveUnit.Assert.isTrue(getComputedStyle(placeHolder).position === "static", "placeholder element must have static positioning");
 
-        // Verify the ToolBar chose the correct overflow direction when opening based on the amount of vertical
-        // space between where it's placeholder now is and the top/bottom edges of the viewport. 
-        var distanceFromTop = placeHolderRect.top;
-        var disatanceFromBottom = window.innerHeight - placeHolderRect.bottom;
-
-        // Verify that based on our overflowdirection, we are correctly positioned on top of the placeholder element.
-        LiveUnit.Assert.areEqual(toolBarRect.width, placeHolderRect.width, "Opened ToolBar must have same width as its placeholder element");
-        LiveUnit.Assert.areEqual(toolBarRect.left, placeHolderRect.left, "Opened ToolBar must have same left offset as its placeholder element");
-
+        // Verify that the ToolBar is correctly positioned on top of the placeholder element.
+        Helper.Assert.areFloatsEqual(placeHolderMarginBoxLeft, toolBarMarginBoxLeft,
+            "Opened ToolBar marginbox's left viewport offset must be identical to the placeHolder marginbox's left viewport offset", 1);
+        Helper.Assert.areFloatsEqual(placeHolderMarginBoxRight, toolBarMarginBoxRight,
+            "Opened ToolBar marginbox's right viewport offset must be identical to the placeHolder marginbox's right viewport offset", 1);
         switch (toolBar._commandingSurface.overflowDirection) {
             case _CommandingSurface.OverflowDirection.bottom:
-
-                LiveUnit.Assert.areEqual(toolBarRect.top, placeHolderRect.top, "")
+                Helper.Assert.areFloatsEqual(placeHolderMarginBoxTop, toolBarMarginBoxTop,
+                    "Opened ToolBar marginbox's top viewport offset must be identical to placeHolder marginbox's top viewport offset", 1);
                 break;
             case _CommandingSurface.OverflowDirection.top:
-
-                LiveUnit.Assert.areEqual(toolBarRect.bottom, placeHolderRect.bottom, "")
+                Helper.Assert.areFloatsEqual(placeHolderMarginBoxBottom, toolBarMarginBoxBottom,
+                    "Opened ToolBar marginbox's bottom viewport offset must be identical to placeHolder marginbox's bottom viewport offset", 1);
                 break;
         }
 

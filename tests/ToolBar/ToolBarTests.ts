@@ -1578,9 +1578,10 @@ module CorsicaTests {
             var topOfViewport = 0,
                 bottomOfViewport = window.innerHeight,
                 middleOfViewport = window.innerHeight / 2,
-                paddingTop = WinJS.Utilities.convertToPixels(toolBarEl, "paddingTop"),
-                borderTop = WinJS.Utilities.convertToPixels(toolBarEl, "borderTop"),
-                marginTop = WinJS.Utilities.convertToPixels(toolBarEl, "marginTop"),
+                closedStyle = getComputedStyle(toolBar._dom.root),
+                paddingTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.paddingTop),
+                borderTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.borderTop),
+                marginTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.marginTop),
                 contentHeight = WinJS.Utilities.getContentHeight(toolBarEl),
                 nextContainerTop = middleOfViewport - (contentHeight / 2) - paddingTop - borderTop - marginTop;
 

@@ -373,32 +373,17 @@ export class ToolBar {
         var closedBorderBox = this._dom.root.getBoundingClientRect(),
             closedContentWidth = _ElementUtilities.getContentWidth(this._dom.root),
             closedContentHeight = _ElementUtilities.getContentHeight(this._dom.root),
-            closedPaddingTop = _ElementUtilities.convertToPixels(this._dom.root, "paddingTop"),
-            closedBorderTop = _ElementUtilities.convertToPixels(this._dom.root, "borderTop"),
+            closedStyle = getComputedStyle(this._dom.root),
+            closedPaddingTop = _ElementUtilities.convertToPixels(this._dom.root, closedStyle.paddingTop),
+            closedBorderTop = _ElementUtilities.convertToPixels(this._dom.root, closedStyle.borderTop),
             closedMargins = {
-                top: _ElementUtilities.convertToPixels(this._dom.root, "marginTop"),
-                right: _ElementUtilities.convertToPixels(this._dom.root, "marginRight"),
-                bottom: _ElementUtilities.convertToPixels(this._dom.root, "marginBottom"),
-                left: _ElementUtilities.convertToPixels(this._dom.root, "marginLeft"),
+                top: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginTop),
+                right: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginRight),
+                bottom: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginBottom),
+                left: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginLeft),
             },
             closedContentBoxTop = closedBorderBox.top + closedBorderTop + closedPaddingTop,
             closedContentBoxBottom = closedContentBoxTop + closedContentHeight;
-
-        // Determine which direction to expand the CommandingSurface elements when opened.
-        var topOfViewport = 0,
-            bottomOfViewport = _Global.innerHeight,
-            distanceFromTop = closedContentBoxTop - topOfViewport,
-            distanceFromBottom = bottomOfViewport - closedContentBoxBottom;
-
-        if (distanceFromTop > distanceFromBottom) {
-            // Open upwards
-            this._commandingSurface.overflowDirection = _Constants.OverflowDirection.top;
-            this._dom.root.style.bottom = distanceFromBottom - closedMargins.bottom + "px";
-        } else {
-            // Open downwards
-            this._commandingSurface.overflowDirection = _Constants.OverflowDirection.bottom;
-            this._dom.root.style.top = distanceFromTop - closedMargins.top + "px";
-        }
 
         // Size our placeHolder. Set height and width to match borderbox of the closed Commandingsurface.
         // Copy commandingsurface margins to the placeholder.
@@ -411,13 +396,34 @@ export class ToolBar {
         placeHolderStyle.marginBottom = closedMargins.bottom + "px";
         placeHolderStyle.marginLeft = closedMargins.left + "px";
 
-        // Move ToolBar element to the body and leave placeHolder element in our place to avoid reflowing surrounding app content.
+        // Move ToolBar element to the body in preparation of becoming a light dismissible. Leave an equal sized placeHolder element 
+        // at our original DOM location to avoid reflowing surrounding app content.
         this._dom.root.parentElement.insertBefore(placeHolder, this._dom.root);
         _Global.document.body.appendChild(this._dom.root);
 
-        // Position the commanding surface to cover the placeholder element.
+        // Position the ToolBar to completely cover the same region as the placeholder element.
         this._dom.root.style.width = closedContentWidth + "px";
         this._dom.root.style.left = closedBorderBox.left - closedMargins.left + "px";
+
+        // Determine which direction to expand the CommandingSurface elements when opened. We choose the direction that offers the most 
+        // space between the edge of viewport and the corresponding edge of the closed ToolBar contentbox. This is to reduce the chance 
+        // that the overflow area might clip through the edge of the viewport.
+        var topOfViewport = 0,
+            bottomOfViewport = _Global.innerHeight,
+            distanceFromTop = closedContentBoxTop - topOfViewport,
+            distanceFromBottom = bottomOfViewport - closedContentBoxBottom;
+
+        if (distanceFromTop > distanceFromBottom) {
+            // ToolBar is going to expand updwards.
+            this._commandingSurface.overflowDirection = _Constants.OverflowDirection.top;
+            // Position the bottom edge of the ToolBar marginbox over the bottom edge of the placeholder marginbox.
+            this._dom.root.style.bottom = bottomOfViewport - closedBorderBox.bottom + closedMargins.bottom + "px";
+        } else {
+            // ToolBar is going to expand downwards.
+            this._commandingSurface.overflowDirection = _Constants.OverflowDirection.bottom;
+            // Position the top edge of the ToolBar marginbox over the top edge of the placeholder marginbox.
+            this._dom.root.style.top = topOfViewport + closedBorderBox.top - closedMargins.top + "px";
+        }
 
         // Render opened state
         _ElementUtilities.addClass(this._dom.root, _Constants.ClassNames.openedClass);
