@@ -375,7 +375,8 @@ export class ToolBar {
         var closedStyle = getComputedStyle(this._dom.root);
         var closedPaddingTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.paddingTop);
         var closedBorderTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.borderTopWidth);
-        var closedMargins = {
+        var closedMargins = _ElementUtilities._getPreciseMargins(this._dom.root);
+        var closedMargins2 = {
             top: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginTop),
             right: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginRight),
             bottom: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginBottom),
@@ -387,7 +388,7 @@ export class ToolBar {
         // Size our placeHolder. Set height and width to match borderbox of the closed ToolBar.
         // Copy ToolBar margins to the placeholder.
         var placeHolder = this._dom.placeHolder;
-        var placeHolderStyle = placeHolder.style
+        var placeHolderStyle = placeHolder.style;
         placeHolderStyle.width = closedBorderBox.width + "px";
         placeHolderStyle.height = closedBorderBox.height + "px";
         placeHolderStyle.marginTop = closedMargins.top + "px";
@@ -404,9 +405,9 @@ export class ToolBar {
         this._dom.root.style.width = closedContentWidth + "px";
         this._dom.root.style.left = closedBorderBox.left - closedMargins.left + "px";
 
-        // Determine which direction to expand the CommandingSurface elements when opened. We choose the direction that offers the most 
-        // space between the edge of viewport and the corresponding edge of the closed ToolBar contentbox. This is to reduce the chance 
-        // that the overflow area might clip through the edge of the viewport.
+        // Determine which direction to expand the CommandingSurface elements when opened. The overflow area will be rendered at the corresponding edge of 
+        // the ToolBar's content box, so we choose the direction that offers the most space between that eedge and the corresponding edge of the viewport. 
+        // This is to reduce the chance that the overflow area might clip through the edge of the viewport.
         var topOfViewport = 0;
         var bottomOfViewport = _Global.innerHeight;
         var distanceFromTop = closedContentBoxTop - topOfViewport;

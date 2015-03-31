@@ -113,6 +113,7 @@ declare module WinJS {
         function _getPreciseTotalWidth(element: HTMLElement): number;
         function _getPreciseContentHeight(element: HTMLElement): number;
         function _getPreciseContentWidth(element: HTMLElement): number;
+        function _getPreciseMargins(element: HTMLElement): { top: number; right: number; bottom: number; left: number; };
 
     }
 

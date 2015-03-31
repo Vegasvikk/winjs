@@ -36,21 +36,21 @@ module Helper.ToolBar {
         var toolBarTotalHeight = WinJS.Utilities._getPreciseTotalHeight(toolBarEl);
         var toolBarTotalWidth = WinJS.Utilities._getPreciseTotalWidth(toolBarEl);
         var toolBarRect = toolBarEl.getBoundingClientRect();
-        var toolBarStyle = getComputedStyle(toolBarEl);
-        var toolBarMarginBoxLeft = toolBarRect.left - WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginLeft);
-        var toolBarMarginBoxTop = toolBarRect.top - WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginTop);
-        var toolBarMarginBoxRight = toolBarRect.right + WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginRight);
-        var toolBarMarginBoxBottom = toolBarRect.bottom + WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginBottom);
+        var toolBarMargins = WinJS.Utilities._getPreciseMargins(toolBarEl);
+        var toolBarMarginBoxLeft = toolBarRect.left - toolBarMargins.left;
+        var toolBarMarginBoxTop = toolBarRect.top - toolBarMargins.top;
+        var toolBarMarginBoxRight = toolBarRect.right + toolBarMargins.right;
+        var toolBarMarginBoxBottom = toolBarRect.bottom + toolBarMargins.bottom;
 
         var placeHolder = toolBar._dom.placeHolder;
         var placeHolderTotalHeight = WinJS.Utilities._getPreciseTotalHeight(placeHolder);
         var placeHolderTotalWidth = WinJS.Utilities._getPreciseTotalWidth(placeHolder);
         var placeHolderRect = placeHolder.getBoundingClientRect();
-        var placeHolderStyle = getComputedStyle(placeHolder);
-        var placeHolderMarginBoxLeft = placeHolderRect.left - WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginLeft);
-        var placeHolderMarginBoxTop = placeHolderRect.top - WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginTop);
-        var placeHolderMarginBoxRight = placeHolderRect.right + WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginRight);
-        var placeHolderMarginBoxBottom = placeHolderRect.bottom + WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginBottom);
+        var placeHolderMargins = WinJS.Utilities._getPreciseMargins(placeHolder);
+        var placeHolderMarginBoxLeft = placeHolderRect.left - placeHolderMargins.left;
+        var placeHolderMarginBoxTop = placeHolderRect.top - placeHolderMargins.top;
+        var placeHolderMarginBoxRight = placeHolderRect.right + placeHolderMargins.right;
+        var placeHolderMarginBoxBottom = placeHolderRect.bottom + + placeHolderMargins.bottom;
 
         var tolerance = 1;
 

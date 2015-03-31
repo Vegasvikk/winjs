@@ -271,15 +271,25 @@ define([
             return Math.round(parseFloat(value)) || 0;
         }
     }
-    function _convertToPrecisePixels(element, value) {
-        return parseFloat(value) || 0;
-    }
 
     function getDimension(element, property) {
         return convertToPixels(element, _Global.getComputedStyle(element, null)[property]);
     }
+
+    function _convertToPrecisePixels(element, value) {
+        return parseFloat(value) || 0;
+    }
     function _getPreciseDimension(element, property) {
         return _convertToPrecisePixels(element, _Global.getComputedStyle(element, null)[property]);
+    }
+    function _getPreciseMargins(element) {
+        var style = _Global.getComputedStyle(element);
+        return {
+            top: _convertToPrecisePixels(element, style.marginTop),
+            right: _convertToPrecisePixels(element, style.marginRight),
+            bottom: _convertToPrecisePixels(element, style.marginBottom),
+            left: _convertToPrecisePixels(element, style.marginLeft),
+        };
     }
 
     var _MSGestureEvent = _Global.MSGestureEvent || {
@@ -2109,6 +2119,8 @@ define([
 
         convertToPixels: convertToPixels,
         _convertToPrecisePixels: _convertToPrecisePixels,
+        _getPreciseMargins: _getPreciseMargins,
+
 
         eventWithinElement: function (element, event) {
             /// <signature helpKeyword="WinJS.Utilities.eventWithinElement">

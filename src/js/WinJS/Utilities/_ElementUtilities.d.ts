@@ -891,3 +891,4 @@ export declare function _getPreciseTotalHeight(element: HTMLElement): number;
 export declare function _getPreciseTotalWidth(element: HTMLElement): number;
 export declare function _getPreciseContentHeight(element: HTMLElement): number;
 export declare function _getPreciseContentWidth(element: HTMLElement): number;
+export declare function _getPreciseMargins(element: HTMLElement): { top: number; right: number; bottom: number; left: number;};
