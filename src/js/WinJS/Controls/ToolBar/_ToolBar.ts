@@ -376,12 +376,6 @@ export class ToolBar {
         var closedPaddingTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.paddingTop);
         var closedBorderTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.borderTopWidth);
         var closedMargins = _ElementUtilities._getPreciseMargins(this._dom.root);
-        var closedMargins2 = {
-            top: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginTop),
-            right: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginRight),
-            bottom: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginBottom),
-            left: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginLeft),
-        };
         var closedContentBoxTop = closedBorderBox.top + closedBorderTop + closedPaddingTop;
         var closedContentBoxBottom = closedContentBoxTop + closedContentHeight;
 
