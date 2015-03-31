@@ -970,7 +970,7 @@ module CorsicaTests {
                 data: data
             });
 
-            LiveUnit.Assert.areEqual(0, WinJS.Utilities.getTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container when there are no commands that overflow");
+            LiveUnit.Assert.areEqual(0, WinJS.Utilities._getPreciseTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container when there are no commands that overflow");
         }
 
         xtestOverflowAreaContainerSize() { // TODO Finish redline changes and then reimplement
@@ -999,8 +999,8 @@ module CorsicaTests {
             toolBar.forceLayout();
 
             LiveUnit.Assert.areEqual(2, Helper._CommandingSurface.getVisibleCommandsInElement(toolBar._commandingSurface._dom.overflowArea).length, "There should only be 2 commands in the overflowarea");
-            LiveUnit.Assert.areEqual(2 * _Constants.overflowCommandHeight, WinJS.Utilities.getTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
-            LiveUnit.Assert.areEqual(parseInt(this._element.style.width), WinJS.Utilities.getTotalWidth(toolBar._commandingSurface._dom.overflowArea), "Invalid width for the overflowarea container");
+            LiveUnit.Assert.areEqual(2 * _Constants.overflowCommandHeight, WinJS.Utilities._getPreciseTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
+            LiveUnit.Assert.areEqual(parseInt(this._element.style.width), WinJS.Utilities._getPreciseTotalWidth(toolBar._commandingSurface._dom.overflowArea), "Invalid width for the overflowarea container");
             LiveUnit.Assert.areEqual(toolBar.element, toolBar._commandingSurface._dom.overflowArea.parentNode, "Invalid parent for the overflowarea container");
             LiveUnit.Assert.areEqual(toolBar.element, toolBar._commandingSurface._dom.actionArea.parentNode, "Invalid parent for the actionarea container");
         }
@@ -1023,7 +1023,7 @@ module CorsicaTests {
                 opened: true
             });
 
-            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities.getTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
+            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities._getPreciseTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
             LiveUnit.Assert.areEqual(9, Helper._CommandingSurface.getVisibleCommandsInElement(toolBar._commandingSurface._dom.overflowArea).length, "There should be 9 commands in the overflowarea");
         }
 
@@ -1051,7 +1051,7 @@ module CorsicaTests {
                 opened: true
             });
 
-            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities.getTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
+            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities._getPreciseTotalHeight(toolBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
         }
 
         xtestKeyboarding_Opened(complete) { // TODO reimplement when new keyboarding model is decided
@@ -1570,8 +1570,8 @@ module CorsicaTests {
             Helper.ToolBar.useSynchronousAnimations(toolBar);
 
             // Start from a sane place and verify that the ToolBar's parent element is sized to content.
-            LiveUnit.Assert.areEqual(WinJS.Utilities.getTotalHeight(toolBarEl),
-                WinJS.Utilities.getContentHeight(container),
+            LiveUnit.Assert.areEqual(WinJS.Utilities._getPreciseTotalHeight(toolBarEl),
+                WinJS.Utilities._getPreciseContentHeight(container),
                 "TEST ERROR: ToolBar's container element must size to content.");
 
             // Vertically center the closed ToolBar's content box.
@@ -1579,10 +1579,10 @@ module CorsicaTests {
             var bottomOfViewport = window.innerHeight;
             var middleOfViewport = window.innerHeight / 2;
             var closedStyle = getComputedStyle(toolBar._dom.root);
-            var paddingTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.paddingTop);
-            var borderTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.borderTopWidth);
-            var marginTop = WinJS.Utilities.convertToPixels(toolBarEl, closedStyle.marginTop);
-            var contentHeight = WinJS.Utilities.getContentHeight(toolBarEl);
+            var paddingTop = WinJS.Utilities._convertToPrecisePixels(toolBarEl, closedStyle.paddingTop);
+            var borderTop = WinJS.Utilities._convertToPrecisePixels(toolBarEl, closedStyle.borderTopWidth);
+            var marginTop = WinJS.Utilities._convertToPrecisePixels(toolBarEl, closedStyle.marginTop);
+            var contentHeight = WinJS.Utilities._getPreciseContentHeight(toolBarEl);
             var nextContainerTop = middleOfViewport - (contentHeight / 2) - paddingTop - borderTop - marginTop;
 
             container.style.top = nextContainerTop + "px";
@@ -1606,8 +1606,8 @@ module CorsicaTests {
 
             // Now that we are above center, verify that ToolBar opens downwards.
             toolBar.open();
-            LiveUnit.Assert.areEqual(toolBar._commandingSurface.overflowDirection,
-                _Constants.OverflowDirection.bottom,
+            LiveUnit.Assert.areEqual(_Constants.OverflowDirection.bottom,
+                toolBar._commandingSurface.overflowDirection,
                 "ToolBar should overflow bottom when there is more space below the content box than above it.");
             toolBar.close();
 
@@ -1617,8 +1617,8 @@ module CorsicaTests {
 
             // Now that we are below center, verify that ToolBar opens upwards.
             toolBar.open();
-            LiveUnit.Assert.areEqual(toolBar._commandingSurface.overflowDirection,
-                _Constants.OverflowDirection.top,
+            LiveUnit.Assert.areEqual(_Constants.OverflowDirection.top,
+                toolBar._commandingSurface.overflowDirection,
                 "ToolBar should overflow top when there is more space aboce the content box than below it.");
         }
 

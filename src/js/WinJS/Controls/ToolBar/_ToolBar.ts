@@ -370,16 +370,16 @@ export class ToolBar {
         // Measure closed state.
         this._updateDomImpl_renderedState.prevInlineWidth = this._dom.root.style.width;
         var closedBorderBox = this._dom.root.getBoundingClientRect();
-        var closedContentWidth = _ElementUtilities.getContentWidth(this._dom.root);
-        var closedContentHeight = _ElementUtilities.getContentHeight(this._dom.root);
+        var closedContentWidth = _ElementUtilities._getPreciseContentWidth(this._dom.root);
+        var closedContentHeight = _ElementUtilities._getPreciseContentHeight(this._dom.root);
         var closedStyle = getComputedStyle(this._dom.root);
-        var closedPaddingTop = _ElementUtilities.convertToPixels(this._dom.root, closedStyle.paddingTop);
-        var closedBorderTop = _ElementUtilities.convertToPixels(this._dom.root, closedStyle.borderTopWidth);
+        var closedPaddingTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.paddingTop);
+        var closedBorderTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.borderTopWidth);
         var closedMargins = {
-            top: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginTop),
-            right: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginRight),
-            bottom: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginBottom),
-            left: _ElementUtilities.convertToPixels(this._dom.root, closedStyle.marginLeft),
+            top: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginTop),
+            right: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginRight),
+            bottom: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginBottom),
+            left: _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.marginLeft),
         };
         var closedContentBoxTop = closedBorderBox.top + closedBorderTop + closedPaddingTop;
         var closedContentBoxBottom = closedContentBoxTop + closedContentHeight;

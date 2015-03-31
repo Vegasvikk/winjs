@@ -11,12 +11,12 @@ module Helper.AppBar {
 
     export function verifyRenderedOpened(appBar: WinJS.UI.PrivateAppBar): void {
 
-        var commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(appBar._dom.commandingSurfaceEl);
-        var commandingSurfaceTotalWidth = WinJS.Utilities.getTotalWidth(appBar._dom.commandingSurfaceEl);
+        var commandingSurfaceTotalHeight = WinJS.Utilities._getPreciseTotalHeight(appBar._dom.commandingSurfaceEl);
+        var commandingSurfaceTotalWidth = WinJS.Utilities._getPreciseTotalWidth(appBar._dom.commandingSurfaceEl);
 
         var appBarEl = appBar.element;
-        var appBarContentHeight = WinJS.Utilities.getContentHeight(appBarEl);
-        var appBarContentWidth = WinJS.Utilities.getContentWidth(appBarEl);
+        var appBarContentHeight = WinJS.Utilities._getPreciseContentHeight(appBarEl);
+        var appBarContentWidth = WinJS.Utilities._getPreciseContentWidth(appBarEl);
 
         // Verify that the Opened AppBar contentbox size matches its CommandingSurface's marginbox size.
         LiveUnit.Assert.areEqual(appBarContentHeight, commandingSurfaceTotalHeight, "Opened AppBar contentbox height should size to content.");
@@ -27,17 +27,20 @@ module Helper.AppBar {
 
     export function verifyRenderedClosed(appBar: WinJS.UI.PrivateAppBar): void {
 
-        var appBarContentHeight = WinJS.Utilities.getContentHeight(appBar.element),
-            appBarContentWidth = WinJS.Utilities.getContentWidth(appBar.element),
-            commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(appBar._dom.commandingSurfaceEl),
-            commandingSurfaceTotalWidth = WinJS.Utilities.getTotalWidth(appBar._dom.commandingSurfaceEl);
+        var appBarContentHeight = WinJS.Utilities._getPreciseContentHeight(appBar.element),
+            appBarContentWidth = WinJS.Utilities._getPreciseContentWidth(appBar.element),
+            commandingSurfaceTotalHeight = WinJS.Utilities._getPreciseTotalHeight(appBar._dom.commandingSurfaceEl),
+            commandingSurfaceTotalWidth = WinJS.Utilities._getPreciseTotalWidth(appBar._dom.commandingSurfaceEl);
 
         if (appBar.closedDisplayMode === WinJS.UI.AppBar.ClosedDisplayMode.none) {
-            LiveUnit.Assert.areEqual("none", getComputedStyle(appBar.element).display, "Closed AppBar with closedDisplayMode 'none' should not display");
+            LiveUnit.Assert.areEqual("none", getComputedStyle(appBar.element).display,
+                "Closed AppBar with closedDisplayMode 'none' should not display");
         } else {
             // Verify that the Closed AppBar content size matches its CommandingSurface's total size.
-            LiveUnit.Assert.areEqual(appBarContentHeight, commandingSurfaceTotalHeight, "Closed AppBar contentbox height should size to content.");
-            LiveUnit.Assert.areEqual(appBarContentWidth, commandingSurfaceTotalWidth, "Closed AppBar contentbox width should size to content.");
+            LiveUnit.Assert.areEqual(appBarContentHeight, commandingSurfaceTotalHeight,
+                "Closed AppBar contentbox height should size to content.");
+            LiveUnit.Assert.areEqual(appBarContentWidth, commandingSurfaceTotalWidth,
+                "Closed AppBar contentbox width should size to content.");
         }
         // Verify CommandingSurface rendered closed.
         Helper._CommandingSurface.verifyRenderedClosed(appBar._commandingSurface);
@@ -51,21 +54,21 @@ module Helper.AppBar {
         var tolerance = 1;
         var appBarRect = appBar._dom.root.getBoundingClientRect();
         var appBarStyle = getComputedStyle(appBar.element);
-        var marginBoxTop = appBarRect.top - WinJS.Utilities.convertToPixels(appBar.element, appBarStyle.marginTop);
-        var marginBoxBottom = appBarRect.bottom + WinJS.Utilities.convertToPixels(appBar.element, appBarStyle.marginBottom);
+        var marginBoxTop = appBarRect.top - WinJS.Utilities._convertToPrecisePixels(appBar.element, appBarStyle.marginTop);
+        var marginBoxBottom = appBarRect.bottom + WinJS.Utilities._convertToPrecisePixels(appBar.element, appBarStyle.marginBottom);
 
         switch (placement) {
             case WinJS.UI.AppBar.Placement.top:
                 Helper.Assert.areFloatsEqual(topOfViewPort, marginBoxTop,
-                    "AppBar with placement 'top' should render its marginbox at the top of the viewport", 1);
-                LiveUnit.Assert.areEqual(appBar._commandingSurface.overflowDirection, _CommandingSurface.OverflowDirection.bottom,
+                    "AppBar with placement 'top' should render its marginbox at the top of the viewport", tolerance);
+                LiveUnit.Assert.areEqual(_CommandingSurface.OverflowDirection.bottom, appBar._commandingSurface.overflowDirection,
                     "placement 'top' AppBar's CommandingSurface should have overflowDirection 'bottom'");
                 break;
 
             case WinJS.UI.AppBar.Placement.bottom:
                 Helper.Assert.areFloatsEqual(bottomOfViewPort, marginBoxBottom,
-                    "AppBar with placement 'bottom' should render its marginbox at the bottom of the viewport", 1);
-                LiveUnit.Assert.areEqual(appBar._commandingSurface.overflowDirection, _CommandingSurface.OverflowDirection.top,
+                    "AppBar with placement 'bottom' should render its marginbox at the bottom of the viewport", tolerance);
+                LiveUnit.Assert.areEqual(_CommandingSurface.OverflowDirection.top, appBar._commandingSurface.overflowDirection,
                     "placement 'bottom' AppBar's CommandingSurface should have overflowDirection 'top'");
                 break;
 

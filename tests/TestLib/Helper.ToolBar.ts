@@ -27,30 +27,30 @@ module Helper.ToolBar {
         // fixed positioning, to reposition itself over the placeholder element to create the illusion that it
         // never moved.
 
-        var commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(toolBar._dom.commandingSurfaceEl);
-        var commandingSurfaceTotalWidth = WinJS.Utilities.getTotalWidth(toolBar._dom.commandingSurfaceEl);
+        var commandingSurfaceTotalHeight = WinJS.Utilities._getPreciseTotalHeight(toolBar._dom.commandingSurfaceEl);
+        var commandingSurfaceTotalWidth = WinJS.Utilities._getPreciseTotalWidth(toolBar._dom.commandingSurfaceEl);
 
         var toolBarEl = toolBar.element;
-        var toolBarContentHeight = WinJS.Utilities.getContentHeight(toolBarEl);
-        var toolBarContentWidth = WinJS.Utilities.getContentWidth(toolBarEl);
-        var toolBarTotalHeight = WinJS.Utilities.getTotalHeight(toolBarEl);
-        var toolBarTotalWidth = WinJS.Utilities.getTotalWidth(toolBarEl);
+        var toolBarContentHeight = WinJS.Utilities._getPreciseContentHeight(toolBarEl);
+        var toolBarContentWidth = WinJS.Utilities._getPreciseContentWidth(toolBarEl);
+        var toolBarTotalHeight = WinJS.Utilities._getPreciseTotalHeight(toolBarEl);
+        var toolBarTotalWidth = WinJS.Utilities._getPreciseTotalWidth(toolBarEl);
         var toolBarRect = toolBarEl.getBoundingClientRect();
         var toolBarStyle = getComputedStyle(toolBarEl);
-        var toolBarMarginBoxLeft = toolBarRect.left - WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginLeft);
-        var toolBarMarginBoxTop = toolBarRect.top - WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginTop);
-        var toolBarMarginBoxRight = toolBarRect.right + WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginRight);
-        var toolBarMarginBoxBottom = toolBarRect.bottom + WinJS.Utilities.convertToPixels(toolBarEl, toolBarStyle.marginBottom);
+        var toolBarMarginBoxLeft = toolBarRect.left - WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginLeft);
+        var toolBarMarginBoxTop = toolBarRect.top - WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginTop);
+        var toolBarMarginBoxRight = toolBarRect.right + WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginRight);
+        var toolBarMarginBoxBottom = toolBarRect.bottom + WinJS.Utilities._convertToPrecisePixels(toolBarEl, toolBarStyle.marginBottom);
 
         var placeHolder = toolBar._dom.placeHolder;
-        var placeHolderTotalHeight = WinJS.Utilities.getTotalHeight(placeHolder);
-        var placeHolderTotalWidth = WinJS.Utilities.getTotalWidth(placeHolder);
+        var placeHolderTotalHeight = WinJS.Utilities._getPreciseTotalHeight(placeHolder);
+        var placeHolderTotalWidth = WinJS.Utilities._getPreciseTotalWidth(placeHolder);
         var placeHolderRect = placeHolder.getBoundingClientRect();
         var placeHolderStyle = getComputedStyle(placeHolder);
-        var placeHolderMarginBoxLeft = placeHolderRect.left - WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginLeft);
-        var placeHolderMarginBoxTop = placeHolderRect.top - WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginTop);
-        var placeHolderMarginBoxRight = placeHolderRect.right + WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginRight);
-        var placeHolderMarginBoxBottom = placeHolderRect.bottom + WinJS.Utilities.convertToPixels(placeHolder, placeHolderStyle.marginBottom);
+        var placeHolderMarginBoxLeft = placeHolderRect.left - WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginLeft);
+        var placeHolderMarginBoxTop = placeHolderRect.top - WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginTop);
+        var placeHolderMarginBoxRight = placeHolderRect.right + WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginRight);
+        var placeHolderMarginBoxBottom = placeHolderRect.bottom + WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginBottom);
 
         // Verify that the Opened ToolBar contentbox size matches its CommandingSurface's marginbox size.
         LiveUnit.Assert.areEqual(toolBarContentHeight, commandingSurfaceTotalHeight, "Opened ToolBar contentbox height should size to content.");
@@ -84,11 +84,11 @@ module Helper.ToolBar {
     }
 
     export function verifyRenderedClosed(toolBar: WinJS.UI.PrivateToolBar): void {
-        var toolBarContentHeight = WinJS.Utilities.getContentHeight(toolBar.element),
-            toolBarContentWidth = WinJS.Utilities.getContentWidth(toolBar.element),
-            commandingSurfaceTotalHeight = WinJS.Utilities.getTotalHeight(toolBar._dom.commandingSurfaceEl),
-            commandingSurfaceTotalWidth = WinJS.Utilities.getTotalWidth(toolBar._dom.commandingSurfaceEl),
-            placeHolder = toolBar._dom.placeHolder;
+        var toolBarContentHeight = WinJS.Utilities._getPreciseContentHeight(toolBar.element);
+        var toolBarContentWidth = WinJS.Utilities._getPreciseContentWidth(toolBar.element);
+        var commandingSurfaceTotalHeight = WinJS.Utilities._getPreciseTotalHeight(toolBar._dom.commandingSurfaceEl);
+        var commandingSurfaceTotalWidth = WinJS.Utilities._getPreciseTotalWidth(toolBar._dom.commandingSurfaceEl);
+        var placeHolder = toolBar._dom.placeHolder;
 
         // Verify that the Closed ToolBar content size matches its CommandingSurface's total size.
         LiveUnit.Assert.areEqual(toolBarContentHeight, commandingSurfaceTotalHeight, "Closed ToolBar contentbox height should size to content.");

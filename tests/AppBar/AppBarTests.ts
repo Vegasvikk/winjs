@@ -935,7 +935,7 @@ module CorsicaTests {
                 data: data
             });
 
-            LiveUnit.Assert.areEqual(0, WinJS.Utilities.getTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container when there are no commands that overflow");
+            LiveUnit.Assert.areEqual(0, WinJS.Utilities._getPreciseTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container when there are no commands that overflow");
         }
 
         xtestOverflowAreaContainerSize() { // TODO Finish redline changes and then reimplement
@@ -964,8 +964,8 @@ module CorsicaTests {
             appBar.forceLayout();
 
             LiveUnit.Assert.areEqual(2, Helper._CommandingSurface.getVisibleCommandsInElement(appBar._commandingSurface._dom.overflowArea).length, "There should only be 2 commands in the overflowarea");
-            LiveUnit.Assert.areEqual(2 * _Constants.overflowCommandHeight, WinJS.Utilities.getTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
-            LiveUnit.Assert.areEqual(parseInt(this._element.style.width), WinJS.Utilities.getTotalWidth(appBar._commandingSurface._dom.overflowArea), "Invalid width for the overflowarea container");
+            LiveUnit.Assert.areEqual(2 * _Constants.overflowCommandHeight, WinJS.Utilities._getPreciseTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
+            LiveUnit.Assert.areEqual(parseInt(this._element.style.width), WinJS.Utilities._getPreciseTotalWidth(appBar._commandingSurface._dom.overflowArea), "Invalid width for the overflowarea container");
             LiveUnit.Assert.areEqual(appBar.element, appBar._commandingSurface._dom.overflowArea.parentNode, "Invalid parent for the overflowarea container");
             LiveUnit.Assert.areEqual(appBar.element, appBar._commandingSurface._dom.actionArea.parentNode, "Invalid parent for the actionarea container");
         }
@@ -988,7 +988,7 @@ module CorsicaTests {
                 opened: true
             });
 
-            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities.getTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
+            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities._getPreciseTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
             LiveUnit.Assert.areEqual(9, Helper._CommandingSurface.getVisibleCommandsInElement(appBar._commandingSurface._dom.overflowArea).length, "There should be 9 commands in the overflowarea");
         }
 
@@ -1016,7 +1016,7 @@ module CorsicaTests {
                 opened: true
             });
 
-            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities.getTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
+            LiveUnit.Assert.areEqual(4.5 * _Constants.overflowCommandHeight, WinJS.Utilities._getPreciseTotalHeight(appBar._commandingSurface._dom.overflowArea), "Invalid height for the overflowarea container");
         }
 
         xtestKeyboarding_Opened(complete) { // TODO reimplement when new keyboarding model is decided
