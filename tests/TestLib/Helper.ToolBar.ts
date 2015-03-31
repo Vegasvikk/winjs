@@ -52,31 +52,36 @@ module Helper.ToolBar {
         var placeHolderMarginBoxRight = placeHolderRect.right + WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginRight);
         var placeHolderMarginBoxBottom = placeHolderRect.bottom + WinJS.Utilities._convertToPrecisePixels(placeHolder, placeHolderStyle.marginBottom);
 
+        var tolerance = 1;
+
         // Verify that the Opened ToolBar contentbox size matches its CommandingSurface's marginbox size.
-        LiveUnit.Assert.areEqual(toolBarContentHeight, commandingSurfaceTotalHeight, "Opened ToolBar contentbox height should size to content.");
-        LiveUnit.Assert.areEqual(toolBarContentWidth, commandingSurfaceTotalWidth, "Opened ToolBar contentbox width should size to content.");
+        Helper.Assert.areFloatsEqual(toolBarContentHeight, commandingSurfaceTotalHeight,
+            "Opened ToolBar contentbox height should size to content.", tolerance);
+        Helper.Assert.areFloatsEqual(toolBarContentWidth, commandingSurfaceTotalWidth,
+            "Opened ToolBar contentbox width should size to content.", tolerance);
 
         // Verify that the opened toolbar is a child of the body element with fixed position.
-        LiveUnit.Assert.isTrue(toolBar.element.parentElement === document.body, "Opened ToolBar must be a child of the <body> element");
-        LiveUnit.Assert.isTrue(getComputedStyle(toolBar.element).position === "fixed", "Opened ToolBar must have fixed positioning");
+        LiveUnit.Assert.areEqual(toolBar.element.parentElement,document.body, "Opened ToolBar must be a child of the <body> element");
+        LiveUnit.Assert.areEqual(getComputedStyle(toolBar.element).position, "fixed", "Opened ToolBar must have fixed positioning");
 
         // Verify that the placeholder element is a descendant of the body with static positioning.
         LiveUnit.Assert.isTrue(document.body.contains(placeHolder), "placeholder element must be a descendant of the <body> while ToolBar is opened.");
-        LiveUnit.Assert.isTrue(getComputedStyle(placeHolder).position === "static", "placeholder element must have static positioning");
+        LiveUnit.Assert.areEqual(getComputedStyle(placeHolder).position, "static", "placeholder element must have static positioning");
 
         // Verify that the ToolBar is correctly positioned on top of the placeholder element.
         Helper.Assert.areFloatsEqual(placeHolderMarginBoxLeft, toolBarMarginBoxLeft,
-            "Opened ToolBar marginbox's left viewport offset must be identical to the placeHolder marginbox's left viewport offset", 1);
+            "Left viewport offset of opened ToolBar's marginbox should match the left viewport offset of palceHolder's marginbox", tolerance);
         Helper.Assert.areFloatsEqual(placeHolderMarginBoxRight, toolBarMarginBoxRight,
-            "Opened ToolBar marginbox's right viewport offset must be identical to the placeHolder marginbox's right viewport offset", 1);
+            "Right viewport offset of opened ToolBar's marginbox should match the right viewport offset of palceHolder's marginbox", tolerance);
         switch (toolBar._commandingSurface.overflowDirection) {
             case _CommandingSurface.OverflowDirection.bottom:
                 Helper.Assert.areFloatsEqual(placeHolderMarginBoxTop, toolBarMarginBoxTop,
-                    "Opened ToolBar marginbox's top viewport offset must be identical to placeHolder marginbox's top viewport offset", 1);
+                    "Top viewport offset of opened ToolBar's marginbox should match the top viewport offset of palceHolder's marginbox", tolerance);
                 break;
             case _CommandingSurface.OverflowDirection.top:
                 Helper.Assert.areFloatsEqual(placeHolderMarginBoxBottom, toolBarMarginBoxBottom,
-                    "Opened ToolBar marginbox's bottom viewport offset must be identical to placeHolder marginbox's bottom viewport offset", 1);
+                    "Bottom viewport offset of opened ToolBar's marginbox should match the Bottom viewport offset of palceHolder's marginbox",
+                    tolerance);
                 break;
         }
 
@@ -89,10 +94,13 @@ module Helper.ToolBar {
         var commandingSurfaceTotalHeight = WinJS.Utilities._getPreciseTotalHeight(toolBar._dom.commandingSurfaceEl);
         var commandingSurfaceTotalWidth = WinJS.Utilities._getPreciseTotalWidth(toolBar._dom.commandingSurfaceEl);
         var placeHolder = toolBar._dom.placeHolder;
+        var tolerance = 1;
 
         // Verify that the Closed ToolBar content size matches its CommandingSurface's total size.
-        LiveUnit.Assert.areEqual(toolBarContentHeight, commandingSurfaceTotalHeight, "Closed ToolBar contentbox height should size to content.");
-        LiveUnit.Assert.areEqual(toolBarContentWidth, commandingSurfaceTotalWidth, "Closed ToolBar contentbox width should size to content.");
+        Helper.Assert.areFloatsEqual(toolBarContentHeight, commandingSurfaceTotalHeight,
+            "Closed ToolBar contentbox height should size to content.", tolerance);
+        Helper.Assert.areFloatsEqual(toolBarContentWidth, commandingSurfaceTotalWidth,
+            "Closed ToolBar contentbox width should size to content.", tolerance);
 
         // Verify we have a parent element and our placeHolder element does not.
         LiveUnit.Assert.isTrue(document.body.contains(toolBar.element), "Closed ToolBar must be a descendant of the body");

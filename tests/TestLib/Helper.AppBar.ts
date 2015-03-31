@@ -18,29 +18,35 @@ module Helper.AppBar {
         var appBarContentHeight = WinJS.Utilities._getPreciseContentHeight(appBarEl);
         var appBarContentWidth = WinJS.Utilities._getPreciseContentWidth(appBarEl);
 
+        var tolerance = 1;
+
         // Verify that the Opened AppBar contentbox size matches its CommandingSurface's marginbox size.
-        LiveUnit.Assert.areEqual(appBarContentHeight, commandingSurfaceTotalHeight, "Opened AppBar contentbox height should size to content.");
-        LiveUnit.Assert.areEqual(appBarContentWidth, commandingSurfaceTotalWidth, "Opened AppBar contentbox width should size to content.");
+        Helper.Assert.areFloatsEqual(appBarContentHeight, commandingSurfaceTotalHeight,
+            "Opened AppBar contentbox height should size to content.", tolerance);
+        Helper.Assert.areFloatsEqual(appBarContentWidth, commandingSurfaceTotalWidth,
+            "Opened AppBar contentbox width should size to content.", tolerance);
 
         Helper._CommandingSurface.verifyRenderedOpened(appBar._commandingSurface);
     }
 
     export function verifyRenderedClosed(appBar: WinJS.UI.PrivateAppBar): void {
 
-        var appBarContentHeight = WinJS.Utilities._getPreciseContentHeight(appBar.element),
-            appBarContentWidth = WinJS.Utilities._getPreciseContentWidth(appBar.element),
-            commandingSurfaceTotalHeight = WinJS.Utilities._getPreciseTotalHeight(appBar._dom.commandingSurfaceEl),
-            commandingSurfaceTotalWidth = WinJS.Utilities._getPreciseTotalWidth(appBar._dom.commandingSurfaceEl);
+        var appBarContentHeight = WinJS.Utilities._getPreciseContentHeight(appBar.element);
+        var appBarContentWidth = WinJS.Utilities._getPreciseContentWidth(appBar.element);
+        var commandingSurfaceTotalHeight = WinJS.Utilities._getPreciseTotalHeight(appBar._dom.commandingSurfaceEl);
+        var commandingSurfaceTotalWidth = WinJS.Utilities._getPreciseTotalWidth(appBar._dom.commandingSurfaceEl);
+
+        var tolerance = 1;
 
         if (appBar.closedDisplayMode === WinJS.UI.AppBar.ClosedDisplayMode.none) {
             LiveUnit.Assert.areEqual("none", getComputedStyle(appBar.element).display,
                 "Closed AppBar with closedDisplayMode 'none' should not display");
         } else {
             // Verify that the Closed AppBar content size matches its CommandingSurface's total size.
-            LiveUnit.Assert.areEqual(appBarContentHeight, commandingSurfaceTotalHeight,
-                "Closed AppBar contentbox height should size to content.");
-            LiveUnit.Assert.areEqual(appBarContentWidth, commandingSurfaceTotalWidth,
-                "Closed AppBar contentbox width should size to content.");
+            Helper.Assert.areFloatsEqual(appBarContentHeight, commandingSurfaceTotalHeight,
+                "Closed AppBar contentbox height should size to content.", tolerance);
+            Helper.Assert.areFloatsEqual(appBarContentWidth, commandingSurfaceTotalWidth,
+                "Closed AppBar contentbox width should size to content.", tolerance);
         }
         // Verify CommandingSurface rendered closed.
         Helper._CommandingSurface.verifyRenderedClosed(appBar._commandingSurface);
