@@ -280,15 +280,15 @@ define([
         return parseFloat(value) || 0;
     }
     function _getPreciseDimension(element, property) {
-        return _convertToPrecisePixels(element, _Global.getComputedStyle(element, null)[property]);
+        return _convertToPrecisePixels(_Global.getComputedStyle(element, null)[property]);
     }
     function _getPreciseMargins(element) {
         var style = _Global.getComputedStyle(element);
         return {
-            top: _convertToPrecisePixels(element, style.marginTop),
-            right: _convertToPrecisePixels(element, style.marginRight),
-            bottom: _convertToPrecisePixels(element, style.marginBottom),
-            left: _convertToPrecisePixels(element, style.marginLeft),
+            top: _convertToPrecisePixels(style.marginTop),
+            right: _convertToPrecisePixels(style.marginRight),
+            bottom: _convertToPrecisePixels(style.marginBottom),
+            left: _convertToPrecisePixels(style.marginLeft),
         };
     }
 
