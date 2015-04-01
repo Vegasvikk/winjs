@@ -60,8 +60,8 @@ module Helper.AppBar {
         var tolerance = 1;
         var appBarRect = appBar._dom.root.getBoundingClientRect();
         var appBarStyle = getComputedStyle(appBar.element);
-        var marginBoxTop = appBarRect.top - WinJS.Utilities._convertToPrecisePixels(appBar.element, appBarStyle.marginTop);
-        var marginBoxBottom = appBarRect.bottom + WinJS.Utilities._convertToPrecisePixels(appBar.element, appBarStyle.marginBottom);
+        var marginBoxTop = appBarRect.top - WinJS.Utilities._convertToPrecisePixels(appBarStyle.marginTop);
+        var marginBoxBottom = appBarRect.bottom + WinJS.Utilities._convertToPrecisePixels(appBarStyle.marginBottom);
 
         switch (placement) {
             case WinJS.UI.AppBar.Placement.top:

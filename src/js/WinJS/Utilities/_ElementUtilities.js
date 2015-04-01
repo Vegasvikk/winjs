@@ -276,7 +276,7 @@ define([
         return convertToPixels(element, _Global.getComputedStyle(element, null)[property]);
     }
 
-    function _convertToPrecisePixels(element, value) {
+    function _convertToPrecisePixels(value) {
         return parseFloat(value) || 0;
     }
     function _getPreciseDimension(element, property) {

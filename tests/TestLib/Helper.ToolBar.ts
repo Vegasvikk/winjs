@@ -50,7 +50,7 @@ module Helper.ToolBar {
         var placeHolderMarginBoxLeft = placeHolderRect.left - placeHolderMargins.left;
         var placeHolderMarginBoxTop = placeHolderRect.top - placeHolderMargins.top;
         var placeHolderMarginBoxRight = placeHolderRect.right + placeHolderMargins.right;
-        var placeHolderMarginBoxBottom = placeHolderRect.bottom + + placeHolderMargins.bottom;
+        var placeHolderMarginBoxBottom = placeHolderRect.bottom + placeHolderMargins.bottom;
 
         var tolerance = 1;
 

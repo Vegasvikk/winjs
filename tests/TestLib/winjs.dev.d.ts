@@ -108,7 +108,7 @@ declare module WinJS {
         var _MSPointerEvent;
         var _supportsSnapPoints: boolean;
 
-        function _convertToPrecisePixels(element: HTMLElement, value: string): number;
+        function _convertToPrecisePixels(value: string): number;
         function _getPreciseTotalHeight(element: HTMLElement): number;
         function _getPreciseTotalWidth(element: HTMLElement): number;
         function _getPreciseContentHeight(element: HTMLElement): number;

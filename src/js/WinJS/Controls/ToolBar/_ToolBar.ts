@@ -373,8 +373,8 @@ export class ToolBar {
         var closedContentWidth = _ElementUtilities._getPreciseContentWidth(this._dom.root);
         var closedContentHeight = _ElementUtilities._getPreciseContentHeight(this._dom.root);
         var closedStyle = getComputedStyle(this._dom.root);
-        var closedPaddingTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.paddingTop);
-        var closedBorderTop = _ElementUtilities._convertToPrecisePixels(this._dom.root, closedStyle.borderTopWidth);
+        var closedPaddingTop = _ElementUtilities._convertToPrecisePixels(closedStyle.paddingTop);
+        var closedBorderTop = _ElementUtilities._convertToPrecisePixels(closedStyle.borderTopWidth);
         var closedMargins = _ElementUtilities._getPreciseMargins(this._dom.root);
         var closedContentBoxTop = closedBorderBox.top + closedBorderTop + closedPaddingTop;
         var closedContentBoxBottom = closedContentBoxTop + closedContentHeight;
@@ -400,7 +400,7 @@ export class ToolBar {
         this._dom.root.style.left = closedBorderBox.left - closedMargins.left + "px";
 
         // Determine which direction to expand the CommandingSurface elements when opened. The overflow area will be rendered at the corresponding edge of 
-        // the ToolBar's content box, so we choose the direction that offers the most space between that eedge and the corresponding edge of the viewport. 
+        // the ToolBar's content box, so we choose the direction that offers the most space between that edge and the corresponding edge of the viewport. 
         // This is to reduce the chance that the overflow area might clip through the edge of the viewport.
         var topOfViewport = 0;
         var bottomOfViewport = _Global.innerHeight;
